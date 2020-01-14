@@ -24,9 +24,9 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   deploy:
-    runs-on: atlassian/pipelines-kubectl
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: docker://atlassian/pipelines-kubectl
     - name: Deploy Artifact 
       run: |
         echo $KUBECONFIG | base64 -d > kubeconfig.yml
