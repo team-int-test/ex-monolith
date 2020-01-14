@@ -36,6 +36,7 @@ jobs:
       env:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
+        AWS: ${{ secrets.AWS }}
 
 
 # options:
