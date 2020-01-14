@@ -31,19 +31,17 @@ jobs:
         cd hello
         TAG=$(date +%F-%H-%M-%S)
         docker login -u $DOCKER_USER -p $DOCKER_PASS
-        docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
-        docker push $IMAGE_NAME:$TAG
+        docker build . --file Dockerfile --tag teamint/hello:$TAG
+        docker push teamint/hello:$TAG
         sed -i 's/TAG/$TAG/g' k8s-deployment.yaml
       env:
-        IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
+
     - uses: docker://atlassian/pipelines-kubectl
     - name: Deploy Artifact 
-      run: |        
+      run: |  
+        cd hello      
         echo $KUBECONFIG | base64 -d > kubeconfig.yml
         mkdir -p ~/.aws
         echo $AWS | base64 -d > ~/.aws/credentials
@@ -51,6 +49,6 @@ jobs:
         kubectl  --kubeconfig=kubeconfig.yml get pods --all-namespaces
         kubectl  --kubeconfig=kubeconfig.yml apply -f k8s-deployment.yaml
       env:
-        IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
         AWS: ${{ secrets.AWS }}
+
