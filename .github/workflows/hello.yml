@@ -21,6 +21,7 @@ jobs:
     - uses: docker://teamint/vscode-python:latest
     - name: Testing
       run: |
+        cd hello
         pwd
         ls
         cat id.txt
