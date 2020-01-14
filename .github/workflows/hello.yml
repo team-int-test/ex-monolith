@@ -47,8 +47,7 @@ jobs:
     - uses: docker://atlassian/pipelines-kubectl
     - name: Deploy Artifact 
       run: |
-        pwd
-        ls
+        cd hello
         TAG=$(cat id.txt)
         
         echo $KUBECONFIG | base64 -d > kubeconfig.yml
