@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build Artifact
+    - name: Build Artifact & Deploy
       run: |
         cd hello
         TAG=$(date +%F-%H-%M-%S)
@@ -45,10 +45,11 @@ jobs:
         echo $KUBECONFIG | base64 -d > kubeconfig.yml
         mkdir -p ~/.aws
         echo $AWS | base64 -d > ~/.aws/credentials
-
-        kubectl  --kubeconfig=kubeconfig.yml get pods --all-namespaces
+        
         kubectl  --kubeconfig=kubeconfig.yml apply -f k8s-deployment.yaml
+        cat k8s-deployment.yaml
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
         AWS: ${{ secrets.AWS }}
 
+        # kubectl  --kubeconfig=kubeconfig.yml get pods --all-namespaces
