@@ -16,37 +16,35 @@ jobs:
     - name: Init
       run: |
         cd hello
-        echo $(date +%F-%H-%M-%S) > id.txt
-
     - uses: docker://teamint/vscode-python:latest
     - name: Testing
       run: |
         cd hello
         pip install -r requirements.txt
         python -m pytest tests
-        
+  build:
+    runs-on: ubuntu-latest
+    steps:
     - uses: actions/checkout@v1
     - name: Build Artifact
       run: |
         cd hello
+        echo $(date +%F-%H-%M-%S) > id.txt
         TAG=$(cat id.txt)
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
         docker push $IMAGE_NAME:$TAG
+        sed -i 's/TAG/$TAG/g' k8s-deployment.yaml
       env:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}    
-
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: docker://atlassian/pipelines-kubectl
     - name: Deploy Artifact 
-      run: |
-        cd hello
-        TAG=$(cat id.txt)
-        
+      run: |        
         echo $KUBECONFIG | base64 -d > kubeconfig.yml
         mkdir -p ~/.aws
         echo $AWS | base64 -d > ~/.aws/credentials
