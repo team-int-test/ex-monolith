@@ -15,11 +15,10 @@ jobs:
     - uses: docker://teamint/vscode-python:latest
     - name: Testing
       run: |
-        pwd 
-        ls
+        ls -a
         cd hello
-         pip install requirements.txt 
-         python -m pytest tests
+        pip install requirements.txt 
+        python -m pytest tests
   build:
     runs-on: ubuntu-latest
     steps:
