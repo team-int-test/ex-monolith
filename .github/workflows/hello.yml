@@ -24,6 +24,7 @@ jobs:
     - name: Testing
       run: |
         cd hello
+        cat id.txt
         pip install requirements.txt 
         python -m pytest tests
   build:
