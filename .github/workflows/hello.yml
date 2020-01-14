@@ -33,7 +33,7 @@ jobs:
         kubectl --kubeconfig=kubeconfig.yml  apply -f app_k8s.yaml
       env:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
-        KUBECONFIG: ${{ KUBECONFIG }}
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
 # options:
 #     docker: true 
