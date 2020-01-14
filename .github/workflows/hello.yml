@@ -17,10 +17,10 @@ jobs:
       run: |
         cd hello
         docker login -u $DOCKER_USER -p $DOCKER_PASS
-        docker build . --file Dockerfile --tag $IMAGE_NAME:$(date +%s)
+        docker build . --file Dockerfile --tag $IMAGE_NAME
         docker push $IMAGE_NAME
       env:
-        IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
+        IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello:$GITHUB_ACTION'
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   deploy:
