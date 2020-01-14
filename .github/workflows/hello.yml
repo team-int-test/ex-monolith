@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build the Docker image
+    - name: Build Artifact
       run: |
         cd hello
         docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -23,7 +23,17 @@ jobs:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-
+  deploy:
+    runs-on: atlassian/pipelines-kubectl
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy Artifact 
+      run: |
+        echo $KUBECONFIG | base64 -d > kubeconfig.yml
+        kubectl --kubeconfig=kubeconfig.yml  apply -f app_k8s.yaml
+      env:
+        IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
+        KUBECONFIG: ${{ KUBECONFIG }}
 
 # options:
 #     docker: true 
