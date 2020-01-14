@@ -5,8 +5,8 @@ on:
     branches:    
       - master  
     paths:
-      - hello/**
-      - ".github/workflows/hello.yml"
+      - 'hello/**'
+      - '.github/workflows/hello.yml'
 
 jobs:
   build:
