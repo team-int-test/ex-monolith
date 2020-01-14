@@ -16,7 +16,7 @@ jobs:
     - name: Build Artifact
       run: |
         echo $(date +%F-%H-%M-%S) > id.txt
-        EXPORT TAG=$(cat id.txt)
+        TAG=$(cat id.txt)
         cd hello
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
