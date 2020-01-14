@@ -9,14 +9,20 @@ on:
       - '**/hello.yml'
 
 jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Init
+      run: |
+        echo $(date +%F-%H-%M-%S) > id.txt
+        cd hello
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: docker://teamint/vscode-python:latest
     - name: Testing
       run: |
-        ls -a
-        cd hello
         pip install requirements.txt 
         python -m pytest tests
   build:
@@ -25,9 +31,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build Artifact
       run: |
-        echo $(date +%F-%H-%M-%S) > id.txt
         TAG=$(cat id.txt)
-        cd hello
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
         docker push $IMAGE_NAME:$TAG
