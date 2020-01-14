@@ -21,6 +21,8 @@ jobs:
         docker push $IMAGE_NAME
       env:
         IMAGE_NAME: 'hello'
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
 
 
 # options:
