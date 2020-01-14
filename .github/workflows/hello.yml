@@ -37,6 +37,7 @@ jobs:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}    
+        
   deploy:
     runs-on: ubuntu-latest
     steps:
