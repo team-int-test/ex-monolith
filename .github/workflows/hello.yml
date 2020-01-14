@@ -9,6 +9,15 @@ on:
       - '**/hello.yml'
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: docker://teamint/vscode-python:latest
+    - name: Testing
+      run: |
+        cd hello
+         pip install requirements.txt 
+         python -m pytest tests
   build:
     runs-on: ubuntu-latest
     steps:
