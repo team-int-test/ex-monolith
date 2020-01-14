@@ -15,8 +15,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: Init
       run: |
-        echo $(date +%F-%H-%M-%S) > id.txt
         cd hello
+        echo $(date +%F-%H-%M-%S) > id.txt
     - uses: docker://teamint/vscode-python:latest
     - name: Testing
       run: |
