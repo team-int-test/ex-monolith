@@ -20,7 +20,7 @@ jobs:
         docker build . --file Dockerfile --tag $IMAGE_NAME
         docker push $IMAGE_NAME
       env:
-        IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello:$GITHUB_ACTION'
+        IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
   deploy:
