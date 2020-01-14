@@ -24,4 +24,5 @@ RUN apt-get update \
 ENV DEBIAN_FRONTEND=dialog
 EXPOSE 5050
 #
+#
 CMD [ "python", "./application.py" ]
