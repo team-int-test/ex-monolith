@@ -16,4 +16,29 @@ jobs:
     - name: Build the Docker image
       run: |
         cd hello
-        docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        docker login -u $DOCKER_USER -p $DOCKER_PASS
+        docker build . --file Dockerfile --tag $IMAGE_NAME:$(date +%s)
+        docker push $IMAGE_NAME
+      env:
+        IMAGE_NAME: 'hello'
+
+
+# options:
+#     docker: true 
+# pipelines:
+#       default:
+#         - step:
+#             name: Build Image
+#             script:
+#                 - build_changes.sh
+#         #         - cd hello
+#         #         - export IMAGE_NAME=$DOCKER_USER/hello:latest
+#         #         - docker build -t  $IMAGE_NAME .
+#         #         - docker login -u $DOCKER_USER -p $DOCKER_PASS
+#         #         - docker push $IMAGE_NAME
+#         # - step:
+#         #     name: Deploy to Kubernetes
+#         #     image: atlassian/pipelines-kubectl
+#         #     script:
+#         #         - echo $KUBECONFIG | base64 -d > kubeconfig.yml
+#         #         - kubectl --kubeconfig=kubeconfig.yml  apply -f app_k8s.yaml
