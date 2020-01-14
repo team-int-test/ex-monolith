@@ -23,24 +23,16 @@ jobs:
         cd hello
         pip install -r requirements.txt
         python -m pytest tests
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: docker://teamint/vscode-python:latest
-    - name: Testing
-      run: |
-        ls
-        cd hello
-        cat id.txt
-        pip install requirements.txt 
-        python -m pytest tests
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Build Artifact
       run: |
+        ls -a
+        pwd
         cd hello
+        ls -a
         TAG=$(cat id.txt)
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
