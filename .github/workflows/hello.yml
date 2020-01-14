@@ -15,10 +15,12 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build Artifact
       run: |
+        echo $(date +%F-%H-%M-%S) > id.txt
+        EXPORT TAG=$(cat id.txt)
         cd hello
         docker login -u $DOCKER_USER -p $DOCKER_PASS
-        docker build . --file Dockerfile --tag $IMAGE_NAME
-        docker push $IMAGE_NAME
+        docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
+        docker push $IMAGE_NAME:$TAG
       env:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -37,24 +39,3 @@ jobs:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
         AWS: ${{ secrets.AWS }}
-
-
-# options:
-#     docker: true 
-# pipelines:
-#       default:
-#         - step:
-#             name: Build Image
-#             script:
-#                 - build_changes.sh
-#         #         - cd hello
-#         #         - export IMAGE_NAME=$DOCKER_USER/hello:latest
-#         #         - docker build -t  $IMAGE_NAME .
-#         #         - docker login -u $DOCKER_USER -p $DOCKER_PASS
-#         #         - docker push $IMAGE_NAME
-#         # - step:
-#         #     name: Deploy to Kubernetes
-#         #     image: atlassian/pipelines-kubectl
-#         #     script:
-#         #         - echo $KUBECONFIG | base64 -d > kubeconfig.yml
-#         #         - kubectl --kubeconfig=kubeconfig.yml  apply -f app_k8s.yaml
