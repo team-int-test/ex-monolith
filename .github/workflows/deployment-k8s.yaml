@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: hello
-        image: teamint/hello:1579025122
+        image: teamint/hello:TAG
         ports:
         - containerPort: 5050

@@ -31,6 +31,8 @@ jobs:
     - uses: docker://atlassian/pipelines-kubectl
     - name: Deploy Artifact 
       run: |
+        TAG=$(cat id.txt)
+        sed -i 's/TAG/$TAG/g' deployment-k8s.yaml
         echo $KUBECONFIG | base64 -d > kubeconfig.yml
         mkdir -p ~/.aws
         echo $AWS | base64 -d > ~/.aws/credentials
