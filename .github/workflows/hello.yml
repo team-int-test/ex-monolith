@@ -16,10 +16,12 @@ jobs:
     - name: Init
       run: |
         cd hello
+        ls
         echo $(date +%F-%H-%M-%S) > id.txt
     - uses: docker://teamint/vscode-python:latest
     - name: Testing
       run: |
+        pwd
         ls
         cat id.txt
         pip install requirements.txt 
