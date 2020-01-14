@@ -29,8 +29,7 @@ jobs:
     - name: Build Artifact
       run: |
         cd hello
-        echo $(date +%F-%H-%M-%S) > id.txt
-        TAG=$(cat id.txt)
+        TAG=$(date +%F-%H-%M-%S)
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
         docker push $IMAGE_NAME:$TAG
@@ -49,7 +48,6 @@ jobs:
         mkdir -p ~/.aws
         echo $AWS | base64 -d > ~/.aws/credentials
 
-        sed -i 's/TAG/$TAG/g' k8s-deployment.yaml
         kubectl  --kubeconfig=kubeconfig.yml get pods --all-namespaces
         kubectl  --kubeconfig=kubeconfig.yml apply -f k8s-deployment.yaml
       env:
