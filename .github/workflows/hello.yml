@@ -16,13 +16,14 @@ jobs:
     - name: Init
       run: |
         echo $(date +%F-%H-%M-%S) > id.txt
-        cd hello
+        
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: docker://teamint/vscode-python:latest
     - name: Testing
       run: |
+        cd hello
         pip install requirements.txt 
         python -m pytest tests
   build:
@@ -31,8 +32,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build Artifact
       run: |
-        pwd
-        ls
+        cd hello
         TAG=$(cat id.txt)
         docker login -u $DOCKER_USER -p $DOCKER_PASS
         docker build . --file Dockerfile --tag $IMAGE_NAME:$TAG
