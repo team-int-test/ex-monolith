@@ -35,6 +35,7 @@ jobs:
         IMAGE_NAME: '${{ secrets.DOCKER_USER }}/hello'
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
+
 # options:
 #     docker: true 
 # pipelines:
